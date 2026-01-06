@@ -1,2 +1,3 @@
 -insérer le code source a l'intérieur du script si non il ne s'exécutera pas
 -créer un environnement virtuel et y installer les packages ( beautifulsoup4, pandas, Requests )
+-j'ai importer itertools pout extraire uniquement les éléments ( key = valeur ) dans le tableau product_information
