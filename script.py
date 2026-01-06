@@ -48,6 +48,6 @@ for k, v in book_info.items():
 
 
 df = pd.DataFrame([book_data])
-df.to_csv("book_info.csv", index=False)
+df.to_csv("book_scrape_single_book_2026_01_06.csv", index=False)
 
-print("Information du livre enregistrée dans book_info.csv")
+print("Information du livre enregistrée dans book_scrape_single_book_2026_01_06.csv")
