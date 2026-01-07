@@ -1,2 +1,2 @@
--créer un environnement virtuel et y installer les packages ( beautifulsoup4, pandas, Requests, itertools, )
--j'ai importer itertools pour extraire uniquement les éléments ( key = valeur ) que je voulait dans le tableau product_information de la page web
+-Créer un environnement virtuel et y installer les bibliothèques : beautifulsoup4, pandas, Requests  
+-Le script a été développé en langage Python en utilisant les bibliothèques requests pour les requêtes HTTP, BeautifulSoup pour l’analyse du code HTML, urllib.parse pour la gestion des URLs, et pandas pour la structuration et l’export des données au format CSV.
