@@ -4,8 +4,7 @@ import pandas as pd
 from itertools import islice
 from urllib.parse import urljoin
 
-
-CATEGORY_URL = "https://books.toscrape.com/catalogue/category/books/sequential-art_5/index.html"
+url = "https://books.toscrape.com/"
 
 books = []
 
@@ -63,15 +62,36 @@ def cathegory_pagination_urls(category_url):
             break
     return urls
 
-pagination_urls = cathegory_pagination_urls(CATEGORY_URL)
-for page_url in pagination_urls:
-    book_urls = get_book_urls(page_url)
-    for book_url in book_urls:
-        book_data = scrape_book_data(book_url)
-        books.append(book_data)        
+def get_all_categories():
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    
+    categories = {}
+    category_links = soup.select(".side_categories ul li ul li a")
+    for link in category_links:
+        category_name = link.get_text(strip=True)
+        category_url = urljoin(url, link['href'])
+        categories[category_name] = category_url
+    return categories
+
+for category_name, category_url in get_all_categories().items():
+    print(f"Scraping category: {category_name}")
+
+    books = []
+
+    for page_url in cathegory_pagination_urls(category_url):
+        book_urls = get_book_urls(page_url)
+        for book_url in book_urls:
+            book_data = scrape_book_data(book_url)
+            books.append(book_data)
+
+    df = pd.DataFrame(books)
+    csv_filename = f"{category_name.replace(' ', '_').lower()}.csv"
+    df.to_csv(csv_filename, index=False)
+    print(f"Saved data for category '{category_name}' to {csv_filename}")
+
+print("Scraping completed.")    
 
 
-df = pd.DataFrame(books)
-df.to_csv("books_scrape_books_sequential_art_2026_01_07.csv", index=False, encoding="utf-8")
 
-print(f"{len(df)} livres extraits avec succès ✅")
+
