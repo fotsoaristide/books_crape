@@ -3,10 +3,9 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from itertools import islice
 from urllib.parse import urljoin
+import os
 
 url = "https://books.toscrape.com/"
-
-books = []
 
 def get_book_urls(category_url):
     response = requests.get(category_url)
@@ -14,6 +13,11 @@ def get_book_urls(category_url):
     book_links = soup.select("h3 a")
     book_urls = [urljoin(category_url, link['href']) for link in book_links]
     return book_urls
+
+def safe_filename(name):
+    return "".join(c.lower() if c.isalnum() else "_" for c in name).strip("_")
+
+
 def scrape_book_data(book_url):
     response = requests.get(book_url)
     soup = BeautifulSoup(response.content, "html.parser")
@@ -32,9 +36,23 @@ def scrape_book_data(book_url):
     img_tag = soup.find("div", class_="item active").find("img")
     img_src = img_tag["src"]
     image_url = "https://books.toscrape.com/" + img_src.replace("../../", "")
+    
+
+    safe_category = category.replace(" ", "_").lower()
+    folder = os.path.join("images", safe_category)
+    os.makedirs(folder, exist_ok=True)
+
+    image_name = safe_filename(title) + ".jpg"
+    local_image_path = os.path.join(folder, image_name)
+    img_response = requests.get(image_url, stream=True)
+    img_response.raise_for_status()
+
+    with open(local_image_path, "wb") as img_file:
+        for chunk in img_response.iter_content(1024):
+            img_file.write(chunk)
 
     book_info = {
-        "url": book_url,
+        "url": book_url, 
         "category": category,
         "title": title,
         "number_available": availability,
@@ -49,7 +67,7 @@ def scrape_book_data(book_url):
             book_data.update(table_info)
     return book_data
     
-def cathegory_pagination_urls(category_url):
+def category_pagination_urls(category_url):
     urls = [category_url]
     while True:
         response = requests.get(urls[-1])
@@ -79,7 +97,7 @@ for category_name, category_url in get_all_categories().items():
 
     books = []
 
-    for page_url in cathegory_pagination_urls(category_url):
+    for page_url in category_pagination_urls(category_url):
         book_urls = get_book_urls(page_url)
         for book_url in book_urls:
             book_data = scrape_book_data(book_url)
