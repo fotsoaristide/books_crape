@@ -1,39 +1,62 @@
-# Books to Scrape – Web Scraping Project
+📚 Books to Scrape – Web Scraping Project
 
-## Description
+📖 Description:
+
 Ce projet permet d'extraire automatiquement les données des livres du site
-https://books.toscrape.com, y compris les informations détaillées et les images,
-en parcourant toutes les catégories et leurs pages.
+https://books.toscrape.com, y compris :les informations détaillées de chaque livre; les images de couverture; Le script parcourt toutes les catégories et toutes les pages associées.
 
-## Prérequis
-- Python 3.x
-- Git
+⚙️ Prérequis
 
-## Installation
+Python 3.x
 
-1. Cloner le dépôt :
-```bash
-git clone <URL_DU_REPO>
+Git
+
+🛠️ Installation
+1️⃣ Cloner le dépôt
+git clone https://github.com/fotsoaristide/books_crape.git
+
 cd books_scrape
 
-2. Créer un environnement virtuel :
+2️⃣ Créer un environnement virtuel
 
 python -m venv venv
 
-3. Activer l’environnement virtuel :
-Windows:
-  venv\Scripts\activate
-Linux / macOS :
-  source venv/bin/activate
+3️⃣ Activer l’environnement virtuel
+Windows
+venv\Scripts\activate
 
-4. Installer les dépendances :
+Linux / macOS
+source venv/bin/activate
 
- pip install -r requirements.txt
+4️⃣ Installer les dépendances
 
-5. Exécution du script :
+pip install -r requirements.txt
 
- python scraper.py
+▶️ Exécution du script
 
+python script.py
+
+📦 Résultats générés
+Après l’exécution :
+
+Les fichiers CSV sont générés par catégorie
+
+Les images des livres sont téléchargées et classées par catégorie
+
+Les données sont stockées localement dans le dossier data/
+
+⚠️ Les données et images extraites ne sont pas incluses dans le repository GitHub, mais fournies séparément dans une archive ZIP.
+
+📄 Dépendances (requirements.txt)
+
+requests
+
+beautifulsoup4
+
+pandas
+
+👤 Auteur
+Aristide Fotso
 
 
 

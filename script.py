@@ -39,8 +39,9 @@ def scrape_book_data(book_url):
     
 
     safe_category = category.replace(" ", "_").lower()
-    folder = os.path.join("images", safe_category)
+    folder = os.path.join("data", "images", safe_category)
     os.makedirs(folder, exist_ok=True)
+
 
     image_name = safe_filename(title) + ".jpg"
     local_image_path = os.path.join(folder, image_name)
@@ -104,7 +105,8 @@ for category_name, category_url in get_all_categories().items():
             books.append(book_data)
 
     df = pd.DataFrame(books)
-    csv_filename = f"{category_name.replace(' ', '_').lower()}.csv"
+    os.makedirs("data/csv", exist_ok=True)
+    csv_filename = os.path.join("data", "csv", f"{category_name.replace(' ', '_').lower()}.csv")
     df.to_csv(csv_filename, index=False)
     print(f"Saved data for category '{category_name}' to {csv_filename}")
 
